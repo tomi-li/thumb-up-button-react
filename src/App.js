@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
+import Button from './component/Button';
 
 class App extends Component {
 
-  mounted() {
-    console.log(this);
-  }
-
   render() {
     return (
-      <canvas></canvas>
+      <div className="App">
+        <Button></Button>
+      </div>
     );
   }
 }
