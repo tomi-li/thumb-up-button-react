@@ -29,7 +29,6 @@ export default class Button extends Component {
     const ctx = this.ctx;
     ctx.save();
     ctx.translate(p.x, p.y);
-    // ctx.rotate(Math.PI * 2 / 360 * p.clock * 2);
     ctx.beginPath();
     ctx.font = '46px serif';
     ctx.fillText(p.content, 0, 0);
@@ -38,16 +37,20 @@ export default class Button extends Component {
   };
 
   update = () => {
+    const { height } = this.deminsions;
     this.ctx.clearRect(0, 0, this.deminsions.width, this.deminsions.height);
     this.particals.forEach(each => {
       if (each.x <= 0) {
         each.vx = -each.vx;
       }
+      if (each.y <= 0) {
+        each.vy = -each.vy;
+      }
       each.update();
       this.drawPartical(each);
     });
 
-    const validPartical = this.particals.filter(each => !(each.y < 0));
+    const validPartical = this.particals.filter(each => !(each.y > height));
 
     if (this.particals.length !== validPartical.length) {
       this.particals = validPartical;
@@ -65,7 +68,7 @@ export default class Button extends Component {
     this.particals.push(new Partical({
       x: this.emitPoint.x,
       y: this.emitPoint.y,
-      vx: _.random(-6, 0, true),
+      vx: _.random(-6, 6, true),
       vy: _.random(-10, 0, true),
       gravity: 0.15,
       content: icons[_.random(0, icons.length - 1)]
